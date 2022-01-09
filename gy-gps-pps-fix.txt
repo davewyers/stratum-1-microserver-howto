@@ -1,0 +1,7 @@
+Looking at the supplied image the PPS pin is not available as a pin out 
+from the main chip but is instead used to drive the PPS LED.
+
+The PPS signal can be captured via a small wire soldered to the LED SMD cap.
+
+It is advised to also add some hot glue to avoid any pressure on the joint.
+
