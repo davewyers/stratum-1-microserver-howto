@@ -1,0 +1,93 @@
+Rough notes until I create a more detailed config guide for Windows users.
+
+
+==================================================
+# Create Disk Image
+
+# user pi imager to create new lite SSD image
+# create blank "ssh" file in boot directory to allow remote access
+# insert SSD and boot up
+# ssh in to server "raspberrypi" using pi & raspberry
+
+
+# config static IP address
+
+sudo nano /etc/dhcpcd.conf
+# add following lines
+interface eth0
+
+static ip_address=192.168.33.25/24
+static routers=192.168.33.1
+static domain_name_servers=192.168.33.1
+
+# save and exit
+
+sudo raspi-config
+
+====================================================
+
+# Updated from the following
+https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/
+wget http://www.ntpsec.org/white-papers/stratum-1-microserver-howto/clockmaker
+
+cd ~
+mkdir clockmaker
+cd clockmaker
+sudo nano clockmaker
+# copy and paste updated contents
+# save and exit
+sudo chmod a+x clockmaker
+
+
+#run clockmaker
+sudo ./clockmaker --config
+./clockmaker --build
+
+#edit the ntp.conf file
+sudo nano ./ntp.conf
+
+#edit following lines 
+# GPS Serial data reference (NTP0)
+refclock shm unit 0 refid GPS minpoll 4 maxpoll 4 prefer
+
+# NZ Servers
+pool nz.pool.ntp.org iburst
+
+# Then save and exit nano
+
+sudo ./clockmaker --install
+sudo ./clockmaker --mask
+
+# optional
+# WARNING before running this you must have another account to log in as the PI account will be removed
+sudo clockmaker --secure
+sudo clockmaker --strip
+
+# can be updated later with 
+sudo clockmaker --update
+
+
+==================================================
+#Monitoring clients
+
+ntpq -p -u
+ntpmon -u
+cgps -u m
+
+====================================================
+#Set up the USB drive
+
+sudo fdisk -l
+ls -l /dev/disk/by-uuid/*
+
+#Look for the UUID and replace the XXXX-XXXX
+
+/etc/fstab
+#add line
+/dev/disk/by-uuid/XXXX-XXXX    /media/usb-drive         vfat   rw,dmask=000,fmask=0111,user    0   0
+
+
+sudo mount
+sudo mount -a
+
+

@@ -20,3 +20,6 @@ Raspberry Pi OS Lite
 Release date: October 30th 2021
 Kernel version: 5.10
 Size: 463MB
+
+Regards
+Dave
