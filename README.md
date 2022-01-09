@@ -10,7 +10,9 @@ There are a number of guides on the internet to allow you to build one but I fou
 
 The NTPSEC team last updated the Howto Github repository in 2017 and the repository is now archived.
 
-From my perspective the advantage of the stratum-1-microserver-howto was the "clockmaker" python script what allowed me to build, ripdown, then rebuild a server in minutes. The scripts have been updated to support my system so milage may vary.  Most work was around supporting Python3 and PI OS changes.
+From my perspective the advantage of the stratum-1-microserver-howto was the "clockmaker" python script what allowed me to build, ripdown, then rebuild a server in minutes. The scripts have been updated to support my system so milage may vary.  
+
+Most work was around supporting Python3 and PI OS changes.
 
 ##Hardware
 -Raspberry Pi 4, 4Gb, 8Gb SSD
