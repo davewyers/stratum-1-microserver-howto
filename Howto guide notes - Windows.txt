@@ -19,16 +19,15 @@ interface eth0
 static ip_address=192.168.33.25/24
 static routers=192.168.33.1
 static domain_name_servers=192.168.33.1
-
 # save and exit
 
 sudo raspi-config
+# check that the serial port is active but console is disabled
 
 ====================================================
 
 # Updated from the following
 https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/
-wget http://www.ntpsec.org/white-papers/stratum-1-microserver-howto/clockmaker
 
 cd ~
 mkdir clockmaker
@@ -75,7 +74,7 @@ ntpmon -u
 cgps -u m
 
 ====================================================
-#Set up the USB drive
+#Set up the USB drive to store data
 
 sudo fdisk -l
 ls -l /dev/disk/by-uuid/*
