@@ -12,18 +12,18 @@ The NTPSEC team last updated the Howto Github repository in 2017 and the reposit
 
 From my perspective the advantage of the stratum-1-microserver-howto was the "clockmaker" python script what allowed me to build, ripdown, then rebuild a server in minutes. The scripts have been updated to support my system so milage may vary.  
 
-Most work was around supporting Python3 and PI OS changes.
+Most of the work was around supporting Python3 and PI OS changes since 2017.
 
-##Hardware
--Raspberry Pi 4, 4Gb, 8Gb SSD
--gy-gps6mv2 GPS board (based on the uBlox NEO-6M)
--PPS wire connected to GPIO18
+## Hardware
+- Raspberry Pi 4, 4Gb, 8Gb SSD
+- gy-gps6mv2 GPS board (based on the uBlox NEO-6M)
+- PPS wire connected to GPIO18
 
-##Software
--Raspberry Pi OS Lite
--Release date: October 30th 2021
--Kernel version: 5.10
--Size: 463MB
+## Software
+- Raspberry Pi OS Lite
+- Release date: October 30th 2021
+- Kernel version: 5.10
+- Size: 463MB
 
 Regards
 Dave
