@@ -29,6 +29,9 @@ sudo raspi-config
 # Updated from the following
 https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/
 
+# Updated version can be found at 
+https://github.com/davewyers/stratum-1-microserver-howto/blob/master/clockmaker
+
 cd ~
 mkdir clockmaker
 cd clockmaker
@@ -45,12 +48,11 @@ sudo ./clockmaker --config
 #edit the ntp.conf file
 sudo nano ./ntp.conf
 
-#edit following lines 
-# GPS Serial data reference (NTP0)
-refclock shm unit 0 refid GPS minpoll 4 maxpoll 4 prefer
+
+#edit following lines to pick the correct POOL location
 
 # NZ Servers
-pool nz.pool.ntp.org iburst
+pool nz.pool.ntp.org iburst maxpoll 5
 
 # Then save and exit nano
 
@@ -72,6 +74,17 @@ sudo clockmaker --update
 ntpq -p -u
 ntpmon -u
 cgps -u m
+
+===================================================
+#Manually start time keeping
+
+$ su -
+# killall -9 gpsd ntpd
+# gpsd -n /dev/ttyAMA0
+# sleep 2
+# ntpd -gN
+# sleep 2
+# cgps
 
 ====================================================
 #Set up the USB drive to store data

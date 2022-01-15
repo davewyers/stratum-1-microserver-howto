@@ -26,7 +26,8 @@ import time
 # If this changes, the corresponding Makefile declaration and asciidoc macro
 # must as well.
 webfaq = "https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/"
-github = "https://github.com/ntpsec/stratum-1-microserver-howto/blob/master/"
+github = "https://github.com/davewyers/stratum-1-microserver-howto/blob/master/"
+
 # This code is in common with pinup.  Make sure they stay synced
 
 try:
