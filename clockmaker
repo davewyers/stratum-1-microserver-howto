@@ -30,10 +30,6 @@ github = "https://github.com/davewyers/stratum-1-microserver-howto/blob/master/"
 
 # This code is in common with pinup.  Make sure they stay synced
 
-try:
-    my_input = raw_input
-except NameError:
-    my_input = input
 
 
 class RaspberryPi:
@@ -169,7 +165,7 @@ def pinprompt(pin_pairs):
         newpin = None
         for k in pin_pairs:
             print("%s = %s" % (k[0], k))
-        sel = my_input("Select a GPS daughterboard type: ").upper()
+        sel = input("Select a GPS daughterboard type: ").upper()
         for k in pin_pairs:
             if k.startswith(sel):
                 newpin = pin_pairs[k]
@@ -415,7 +411,7 @@ def mask():
 
     existing = set([x[0] for x in pwd.getpwall()])
     while True:
-        nonroot = raw_input("Owner userid? ")
+        nonroot = input("Owner userid? ")
         if not nonroot:
             print ("Cannot be empty.")
         elif ":" in nonroot:

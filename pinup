@@ -14,10 +14,6 @@ import sys, os, re, getopt
 
 # This code is in common with clockmaker.  Make sure they stay synced
 
-try:
-    my_input = raw_input
-except NameError:
-    my_input = input
 
 class RaspberryPi:
     "Raspberry Pi capabilities"
@@ -125,7 +121,7 @@ def pinprompt(pin_pairs):
         newpin = None
         for k in pin_pairs:
             print("%s = %s" % (k[0], k))
-        sel = my_input("Select a GPS daughterboard type: ").upper()
+        sel = input("Select a GPS daughterboard type: ").upper()
         for k in pin_pairs:
             if k.startswith(sel):
                 newpin = pin_pairs[k]
