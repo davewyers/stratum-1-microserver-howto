@@ -21,11 +21,11 @@ static routers=192.168.33.1
 static domain_name_servers=192.168.33.1
 # save and exit
 
-sudo raspi-config
+
 # check that the serial port is active but console is disabled
 
 ====================================================
-
+#Clockmaker
 # Updated from the following
 https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/
 
@@ -35,19 +35,15 @@ https://github.com/davewyers/stratum-1-microserver-howto/blob/master/clockmaker
 cd ~
 mkdir clockmaker
 cd clockmaker
-sudo nano clockmaker
-# copy and paste updated contents
-# save and exit
-sudo chmod a+x clockmaker
 
+wget https://github.com/davewyers/stratum-1-microserver-howto/blob/master/clockmaker
+sudo chmod a+x clockmaker
 
 #run clockmaker
 sudo ./clockmaker --config
-./clockmaker --build
 
-#edit the ntp.conf file
+#edit the ntp.conf file based on location
 sudo nano ./ntp.conf
-
 
 #edit following lines to pick the correct POOL location
 
@@ -56,7 +52,9 @@ pool nz.pool.ntp.org iburst maxpoll 5
 
 # Then save and exit nano
 
+./clockmaker --build
 sudo ./clockmaker --install
+
 sudo ./clockmaker --mask
 
 # optional
@@ -74,6 +72,7 @@ sudo clockmaker --update
 ntpq -p -u
 ntpmon -u
 cgps -u m
+gpsmon
 
 ===================================================
 #Manually start time keeping

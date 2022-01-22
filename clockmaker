@@ -27,6 +27,7 @@ import time
 # must as well.
 webfaq = "https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/"
 github = "https://github.com/davewyers/stratum-1-microserver-howto/blob/master/"
+rawgithub="https://raw.githubusercontent.com/davewyers/stratum-1-microserver-howto/master/"
 
 # This code is in common with pinup.  Make sure they stay synced
 
@@ -294,7 +295,7 @@ def config():
         print("")
         print("Creating /dev/gpsd0 symlink rule")
         with open("/etc/udev/rules.d/10-gps.rules", "w") as wfp:
-            wfp.write('KERNEL=="%s", SYMLINK+="gpsd0"\n' % sbc.gpsdev)
+            wfp.write('KERNEL=="%s", SYMLINK+="gps0"\n' % sbc.gpsdev)
             reboot_required = True
         os.system("udevadm trigger")
 
@@ -344,10 +345,10 @@ def build(clobber):
     os.chdir("..")
 
     if clobber:
-        os.system("rm -f ntp.conf; wget %s/ntp.conf" % github)
-    os.system("rm -f pinup; wget %s/pinup; chmod a+x pinup" % github)
-    os.system("rm -f timeservice; wget %s/timeservice" % github)
-    os.system("rm -f timeservice.service; wget %s/timeservice.service" % github)
+        os.system("rm -f ntp.conf; wget %s/ntp.conf" % rawgithub)
+    os.system("rm -f pinup; wget %s/pinup; chmod a+x pinup" % rawgithub)
+    os.system("rm -f timeservice; wget %s/timeservice" % rawgithub)
+    os.system("rm -f timeservice.service; wget %s/timeservice.service" % rawgithub)
     print ("Clockmaker --build complete.")
 
 
