@@ -42,7 +42,7 @@ In both cases I was using the same GPS module
 # Stratum-1-Microserver
 ## Guide for Windows users
 
-The following are rough notes to set you through the set up from a windows workstation.
+The following are rough notes to get you through the set up from a windows workstation.
 
 ## Create Disk Image
 Download the latest version of the Raspberry PI Imager software from the Raspberry PI web site
@@ -50,19 +50,22 @@ Download the latest version of the Raspberry PI Imager software from the Raspber
 
 Then download the Raspberry OS disk image to your local PC, 
 > https://www.raspberrypi.com/software/operating-systems/
+
 I have used the Lite version (no GUI) but you can use the full version if you have the 4Gb or 8Gb boards.
 
-Running the Raspberry Lite OS with the Time Service uses approx 50Mb so runs easily on the PI Zero W 2 with 512Mb
+Running the Raspberry Lite OS with the Time Service uses approx 50Mb of RAM including the running OS, as such Time Service runs easily on the PI Zero W 2 with 512Mb
 
 Use The PI Imager to create new boot image for the SD card.  When selecting the Operating System select the bottom option "Use Custom" then select the disk image you downloaded above. 
 
-Press Cntl-Shift "x" to display the Advanced Options, Set Hostname to "PI-Time", tick Enable SSL and set a password.
+Press Cntl-Shift-X to display the Advanced Options, 
+ - Set Hostname to "PI-Time", 
+ - tick Enable SSL and set a password.
 
 Select the target SD card and click "Write".
 
 Once finished insert the SD card into the Raspberry PI and boot up the PI.
 
-Open PuTTY and SSH in to server "PI-Time" using username "pi" & the password that you set above.
+On the Windows client open PuTTY and SSH into the server "PI-Time", using username "pi" & the password that you set above.
 
 
 ## config static IP address (Optional)
@@ -85,11 +88,13 @@ Save and exit from Nano by using Ctrl-X, "Y" to save, then Enter to save.
 # Clockmaker
 Clockmaker is the Python script that automates 90% of the effort here.
 
-A full understanding of the origonal script can be found here,
-https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/
+A full understanding of the original script can be found here,
 
-**The updated version that I am working from can be found at** 
-https://github.com/davewyers/stratum-1-microserver-howto/blob/master/clockmaker
+> https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/
+
+**The updated forked version that I am working from can be found at** 
+
+> https://github.com/davewyers/stratum-1-microserver-howto/blob/master/clockmaker
 
 Log into the PI server via SSL, then run the following commands to download the current version of the script and set the permissions to allow execution.
 > cd ~
@@ -102,7 +107,8 @@ It is now time to run the **clockmaker** config process to set up the PI system 
 
 > sudo ./clockmaker --config
 
-Once complete the system will reboot.
+When complete the system will reboot.
+
 Once you have logged back in to the PI, run the **clockmaker** build process to download the setup files to your local machine.
 
 > ./clockmaker --build
