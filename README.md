@@ -97,7 +97,7 @@ A full understanding of the original script can be found here,
 > https://github.com/davewyers/stratum-1-microserver-howto/blob/master/clockmaker
 
 Log into the PI server via SSL, then run the following commands to download the current version of the script and set the permissions to allow execution.
-> cd ~
+> cd \~
 > mkdir clockmaker
 > cd clockmaker
 > wget https://raw.githubusercontent.com/davewyers/stratum-1-microserver-howto/master/clockmaker
