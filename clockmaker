@@ -27,7 +27,7 @@ import time
 # must as well.
 webfaq = "https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/"
 github = "https://github.com/davewyers/stratum-1-microserver-howto/blob/master/"
-rawgithub="https://raw.githubusercontent.com/davewyers/stratum-1-microserver-howto/master/"
+rawgithub="https://raw.githubusercontent.com/davewyers/stratum-1-microserver-howto/master"
 
 # This code is in common with pinup.  Make sure they stay synced
 
