@@ -1,0 +1,18 @@
+
+#!/bin/sh
+#
+# Generate an estimate of your GPS's offset from a peerstats file
+# For instructions on how to use this script, see the GPSD Time
+# Service HOWTO in this distribution.
+#
+# This file is Copyright 2010 by the GPSD project
+# SPDX-License-Identifier: BSD-2-clause
+#
+# Updated 2022 Dave Wyers
+# Support Shared Memory Driver
+awk '
+BEGIN { print "day, second, address, status, offset, delay, dispersion, skew (variance)"}
+        $3 == "SHM(0)"
+        $3 == "SHM(0)" {sum += $5 ; cnt++ ; }
+END     { print "Average,   Sum,   Count"; print sum / cnt, sum, cnt; }
+' </var/log/ntpstats/peerstats

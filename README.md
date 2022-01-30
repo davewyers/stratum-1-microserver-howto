@@ -97,7 +97,8 @@ A full understanding of the original script can be found here,
 > https://github.com/davewyers/stratum-1-microserver-howto/blob/master/clockmaker
 
 Log into the PI server via SSL, then run the following commands to download the current version of the script and set the permissions to allow execution.
-> cd ~
+
+> cd \~
 > mkdir clockmaker
 > cd clockmaker
 > wget https://raw.githubusercontent.com/davewyers/stratum-1-microserver-howto/master/clockmaker
@@ -119,8 +120,8 @@ If required edit the ntp.conf template file based on your location
 
 Edit the following lines to pick the correct upstream POOL location, in my case I have set the NZ pool servers but you will use the time servers for your location.
 
->> \# NZ Servers
->> pool nz.pool.ntp.org iburst maxpoll 5
+> \# NZ Servers
+> pool nz.pool.ntp.org iburst maxpoll 5
 
 Then save and exit nano.
 
@@ -148,7 +149,7 @@ There are a number of applications that can be run to monitor the system.  These
  - ntpmon -u
  - cgps -u m
  - gpsmon
-
+ - ~/clockmaker/ntpoffset
 
 *****
 **Manually start time keeping**
@@ -157,3 +158,12 @@ If you need to check or restart the services, firstly kill the existing processe
 > sudo killall -9 gpsd ntpd
 > sudo gpsd -n /dev/ttyAMA0
 > sudo ntpd -gN
+
+
+**Other Resources**
+ - https://gpsd.gitlab.io/gpsd/gpsd-time-service-howto.html#_performance_tuning
+ - http://www.gregledet.net/computers/building-a-stratum-1-ntp-server-with-a-raspberry-pi-4-and-adafruit-ultimate-gps-hat/
+ - https://weberblog.net/setting-up-nts-secured-ntp-with-ntpsec/
+ - https://psychogun.github.io/docs/linux/Stratum-1-NTP-Server-using-Raspberry-Pi/
+ - https://www.satsignal.eu/ntp/Raspberry-Pi-quickstart.html
+ - https://www.techsolvency.com/ntp/
