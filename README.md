@@ -46,9 +46,11 @@ The following are rough notes to get you through the set up from a windows works
 
 ## Create Disk Image
 Download the latest version of the Raspberry PI Imager software from the Raspberry PI web site
+
 > https://downloads.raspberrypi.org/imager/imager_latest.exe
 
 Then download the Raspberry OS disk image to your local PC, 
+
 > https://www.raspberrypi.com/software/operating-systems/
 
 I have used the Lite version (no GUI) but you can use the full version if you have the 4Gb or 8Gb boards.
@@ -72,14 +74,18 @@ On the Windows client open PuTTY and SSH into the server "PI-Time", using userna
 If you would like to set a static IP you can do so as below, this is not required as Putty will open a SSL connection using the hostname "PI-Time"
 
 Open the config file.
+
 > sudo nano /etc/dhcpcd.conf
 
 Add following lines to the end of the file.
 
->> interface eth0
->> static ip_address=192.168.33.25/24
->> static routers=192.168.33.1
->> static domain_name_servers=192.168.33.1
+> interface eth0
+> 
+> static ip_address=192.168.33.25/24
+> 
+> static routers=192.168.33.1
+> 
+> static domain_name_servers=192.168.33.1
 
 Save and exit from Nano by using Ctrl-X, "Y" to save, then Enter to save. 
 
@@ -99,9 +105,13 @@ A full understanding of the original script can be found here,
 Log into the PI server via SSL, then run the following commands to download the current version of the script and set the permissions to allow execution.
 
 > cd \~
+> 
 > mkdir clockmaker
+> 
 > cd clockmaker
+> 
 > wget https://raw.githubusercontent.com/davewyers/stratum-1-microserver-howto/master/clockmaker
+> 
 > sudo chmod a+x clockmaker
 
 It is now time to run the **clockmaker** config process to set up the PI system to support a serial GPS board.
@@ -121,6 +131,7 @@ If required edit the ntp.conf template file based on your location
 Edit the following lines to pick the correct upstream POOL location, in my case I have set the NZ pool servers but you will use the time servers for your location.
 
 > \# NZ Servers
+> 
 > pool nz.pool.ntp.org iburst maxpoll 5
 
 Then save and exit nano.
@@ -133,7 +144,9 @@ Now it is time to run the install process to copy these files to the correct loc
 **WARNING before running this you must have another account to log in as the default PI account will be removed**
 
 > sudo ./clockmaker --mask
+> 
 > sudo clockmaker --secure
+> 
 > sudo clockmaker --strip
 
 Once the system is up and running you can ensure that the system stays upto date with the current software by running  
@@ -156,7 +169,9 @@ There are a number of applications that can be run to monitor the system.  These
 If you need to check or restart the services, firstly kill the existing processes then restart, a reboot should also work.
 
 > sudo killall -9 gpsd ntpd
+> 
 > sudo gpsd -n /dev/ttyAMA0
+> 
 > sudo ntpd -gN
 
 
