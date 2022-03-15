@@ -97,10 +97,7 @@ A full understanding of the original script can be found here,
 > https://github.com/davewyers/stratum-1-microserver-howto/blob/master/clockmaker
 
 Log into the PI server via SSL, then run the following commands to download the current version of the script and set the permissions to allow execution.
-<<<<<<< HEAD
 
-=======
->>>>>>> 442befe82c3625df478558baab8f8013eb714a9b
 > cd \~
 > mkdir clockmaker
 > cd clockmaker
@@ -161,7 +158,7 @@ If you need to check or restart the services, firstly kill the existing processe
 > sudo killall -9 gpsd ntpd
 > sudo gpsd -n /dev/ttyAMA0
 > sudo ntpd -gN
-<<<<<<< HEAD
+
 
 
 **Other Resources**
@@ -171,5 +168,4 @@ If you need to check or restart the services, firstly kill the existing processe
  - https://psychogun.github.io/docs/linux/Stratum-1-NTP-Server-using-Raspberry-Pi/
  - https://www.satsignal.eu/ntp/Raspberry-Pi-quickstart.html
  - https://www.techsolvency.com/ntp/
-=======
->>>>>>> 442befe82c3625df478558baab8f8013eb714a9b
+
