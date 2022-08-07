@@ -122,7 +122,7 @@ When complete the system will reboot.
 
 Once you have logged back in to the PI, run the **clockmaker** build process to download the setup files to your local machine.
 
-> ./clockmaker --build
+> ./clockmaker/clockmaker --build
 
 If required edit the ntp.conf template file based on your location
 
