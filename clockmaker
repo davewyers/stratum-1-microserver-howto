@@ -77,6 +77,9 @@ class RaspberryPi:
             "b03112": "Pi 4 Model B Revision 1.2 2GB",
             "c03111": "Pi 4 Model B 4GB",
             "c03112": "Pi 4 Model B Revision 1.2 4GB",
+            "c03114": "Pi 4 Model B Revision 1.4 4GB",
+            "d03114": "Pi 4 Model B Revision 1.4 8GB",
+            "902120": "Raspberry Pi Zero 2 W Rev 1.0",
         }
 
     @staticmethod
