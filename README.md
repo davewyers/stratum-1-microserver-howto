@@ -160,6 +160,10 @@ Once the system is up and running you can ensure that the system stays upto date
 **Monitoring clients**
 There are a number of applications that can be run to monitor the system.  These do not need root / sudo access to run.
 
+You may need to add the following to your ~/.bashrc file
+
+> export PYTHONPATH=${PYTHONPATH}:/usr/local/lib/python3/dist-packages/
+
  - ntpq -p -u
  - ntpmon -u
  - cgps -u m
