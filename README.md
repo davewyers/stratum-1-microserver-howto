@@ -30,13 +30,11 @@ In both cases I was using the same GPS module
 
  - Client PC
      -  Windows 10 Pro
-     -  Raspberry Pi Imager v1.6.2
+     -  Raspberry Pi Imager v1.8.5
      -  Putty SSL Client 0.74
  - Raspberry PI
-     - Raspberry Pi OS Lite
-     - Release date: October 30th 2021
-     - Kernel version: 5.10
-     - Size: 463MB
+     - Raspberry Pi OS Lite (54-bit)
+     - Release date: 2024-03-15
 
 *****
 # Stratum-1-Microserver
@@ -49,21 +47,28 @@ Download the latest version of the Raspberry PI Imager software from the Raspber
 
 > https://downloads.raspberrypi.org/imager/imager_latest.exe
 
-Then download the Raspberry OS disk image to your local PC, 
-
-> https://www.raspberrypi.com/software/operating-systems/
-
 I have used the Lite version (no GUI) but you can use the full version if you have the 4Gb or 8Gb boards.
 
 Running the Raspberry Lite OS with the Time Service uses approx 50Mb of RAM including the running OS, as such Time Service runs easily on the PI Zero W 2 with 512Mb
 
-Use The PI Imager to create new boot image for the SD card.  When selecting the Operating System select the bottom option "Use Custom" then select the disk image you downloaded above. 
+Use The PI Imager to create new boot image for the SD card.  
+Select
+ - Device = Raspberry Pi Zero 2 W
+ - OS = Raspberry Pi OS Lite (64-bit)
+ - Storage = your SD Card
 
-Press Cntl-Shift-X to display the Advanced Options, 
- - Set Hostname to "PI-Time", 
- - tick Enable SSL and set a password.
+When asked for OS Customisation Options, select Yes
+Under General
+ - Set Hostname to "PI-Time",
+ - Set Username & Password
+ - Set Wifi SSID & Password
+ - Set Locale
+Under Services
+ - tick Enable SSL and use password authentication.
 
-Select the target SD card and click "Write".
+Click Save
+Select Yes
+
 
 Once finished insert the SD card into the Raspberry PI and boot up the PI.
 
@@ -72,6 +77,8 @@ On the Windows client open PuTTY and SSH into the server "PI-Time", using userna
 
 ## config static IP address (Optional)
 If you would like to set a static IP you can do so as below, this is not required as Putty will open a SSL connection using the hostname "PI-Time"
+
+Old Method
 
 Open the config file.
 
@@ -88,6 +95,11 @@ Add following lines to the end of the file.
 > static domain_name_servers=192.168.33.1
 
 Save and exit from Nano by using Ctrl-X, "Y" to save, then Enter to save. 
+
+
+New Method
+https://www.abelectronics.co.uk/kb/article/31/set-a-static-ip-address-on-raspberry-pi-os-bookworm
+
 
 *****
 
@@ -117,6 +129,8 @@ Log into the PI server via SSL, then run the following commands to download the 
 It is now time to run the **clockmaker** config process to set up the PI system to support a serial GPS board.
 
 > sudo ./clockmaker --config
+
+Select the Uptronics GPS option to use GPIO pin 18 for the PPS input
 
 When complete the system will reboot.
 
