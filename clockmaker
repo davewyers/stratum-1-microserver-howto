@@ -27,10 +27,11 @@ import time
 # must as well.
 webfaq = "https://www.ntpsec.org/white-papers/stratum-1-microserver-howto/"
 github = "https://github.com/davewyers/stratum-1-microserver-howto/blob/master/"
-rawgithub="https://raw.githubusercontent.com/davewyers/stratum-1-microserver-howto/master"
+rawgithub = (
+    "https://raw.githubusercontent.com/davewyers/stratum-1-microserver-howto/master"
+)
 
 # This code is in common with pinup.  Make sure they stay synced
-
 
 
 class RaspberryPi:
@@ -41,14 +42,12 @@ class RaspberryPi:
 
     def __init__(self):
         self.name = "Raspberry Pi"
-        self.gpsdev = "ttyAMA0"   # Don't prefix with /dev! That confuses udev 
+        self.gpsdev = "ttyAMA0"  # Don't prefix with /dev! That confuses udev
         self.default_login = "pi"
         #   GPIO04      |      P1-7     | Adafruit
         #   GPIO18      |      P1-12    | Uputronics
         #   GPIO05      |      PI-29    | SKU 424254
-        self.gpiomap = (("Adafruit", 4),
-                        ("Uputronics", 18),
-                        ("SKU 42425", 5))
+        self.gpiomap = (("Adafruit", 4), ("Uputronics", 18), ("SKU 42425", 5))
         # Map hardware revision numbers to Raspberry Pi versions
         self.revision_dict = {
             "0002": "Model B Revision 1.0",
@@ -98,9 +97,9 @@ class RaspberryPi:
     def set_pps_gpio(self, newpin):
         with open(RaspberryPi.bc) as rp:
             config_txt = rp.read()
-        new_config = re.sub(RaspberryPi.gpio_re,
-                            RaspberryPi.dtoverlay + str(newpin),
-                            config_txt)
+        new_config = re.sub(
+            RaspberryPi.gpio_re, RaspberryPi.dtoverlay + str(newpin), config_txt
+        )
         if new_config != config_txt:
             with open(RaspberryPi.bc, "w") as wp:
                 print("Modifying %s in place." % RaspberryPi.config)
@@ -122,9 +121,7 @@ class OdroidC2:
         self.name = "Odroid C2"
         self.gpsdev = "ttyS1"
         self.default_login = "odroid"
-        self.gpiomap = (("Adafruit", 249),
-                        ("Uputronics", 238),
-                        ("SKU 42425", 228))
+        self.gpiomap = (("Adafruit", 249), ("Uputronics", 238), ("SKU 42425", 228))
         self.revision_dict = {}
 
     @staticmethod
@@ -139,8 +136,7 @@ class OdroidC2:
                 config_txt = rp.read()
             m = OdroidC2.gpio_re.search(config_txt)
             if m:
-                return dict([(str(y), x) for (x, y) in
-                            self.gpiomap])[m.group(1)]
+                return dict([(str(y), x) for (x, y) in self.gpiomap])[m.group(1)]
             else:
                 return None
 
@@ -178,6 +174,7 @@ def pinprompt(pin_pairs):
             break
     return newpin
 
+
 # End common code
 
 
@@ -198,8 +195,7 @@ def config():
         if line.startswith("Revision"):
             revno = line.split()[2]
     if revno is not None and revno in sbc.revision_dict:
-        print("I see hardware revision %s, %s" %
-              (revno, sbc.revision_dict[revno]))
+        print("I see hardware revision %s, %s" % (revno, sbc.revision_dict[revno]))
     elif revno and sbc.revision_dict:
         print("Can't identify SBC version")
         raise SystemExit(0)
@@ -208,9 +204,9 @@ def config():
 
     reboot_required = False
 
-    print ("Configuring locale...")
+    print("Configuring locale...")
     os.system("dpkg-reconfigure locales")
-    print ("Configuring timezone...")
+    print("Configuring timezone...")
     os.system("dpkg-reconfigure tzdata")
 
     print("About to upgrade your OS")
@@ -218,19 +214,19 @@ def config():
 
     print("")
     print("Getting build and test prerequisites")
-    prerequisites = "apt-get -y install pps-tools git scons libncurses-dev "\
-                    "python3-dev bc bison glances "\
-                    "libcap-dev libssl-dev cpufrequtils asciidoctor python3-pip"
+    prerequisites = (
+        "apt-get -y install pps-tools git scons libncurses-dev "
+        "python3-dev bc bison glances "
+        "libcap-dev libssl-dev cpufrequtils asciidoctor python3-pip gpsd"
+    )
     os.system(prerequisites)
-    os.system("pip install gps")
 
     print("")
     print("Configuring for %s" % sbc.name)
 
     print("")
     if not os.path.exists(sbc.bc + "-orig"):
-        print("First-time configuration - backing up %s to %s " %
-              (sbc.bc, sbc.bc))
+        print("First-time configuration - backing up %s to %s " % (sbc.bc, sbc.bc))
         os.system("cp %s %s-orig" % (sbc.bc, sbc.bc))
 
     if sbc.name == "Raspberry Pi":
@@ -286,9 +282,9 @@ def config():
         print("Not working on %s yet" % sbc.name)
         raise SystemExit(1)
 
-    print ("Setting CPU governor")
+    print("Setting CPU governor")
     with open("/etc/default/cpufrequtils", "w") as cfu:
-        cfu.write("GOVERNOR=\"performance\"\n")
+        cfu.write('GOVERNOR="performance"\n')
     os.system("systemctl restart cpufrequtils")
 
     # Do not change the device name /dev/gpsd0 to /dev/gps0 or anything else!
@@ -313,7 +309,7 @@ def config():
     except OSError:
         pass
 
-    print ("Clockmaker --config complete.")
+    print("Clockmaker --config complete.")
 
     print("")
     if reboot_required:
@@ -334,8 +330,10 @@ def build(clobber):
     else:
         os.system("(chdir gpsd; git pull)")
     os.chdir("gpsd")
-    os.system("scons timeservice=yes magic_hat=yes nmea0183=yes ublox=yes "
-              "mtk3301=yes fixed_port_speed=9600 fixed_stop_bits=1")
+    os.system(
+        "scons timeservice=yes magic_hat=yes nmea0183=yes ublox=yes "
+        "mtk3301=yes fixed_port_speed=9600 fixed_stop_bits=1"
+    )
     os.chdir("..")
 
     if not os.path.isdir("ntpsec"):
@@ -352,12 +350,11 @@ def build(clobber):
     os.system("rm -f pinup; wget %s/pinup; chmod a+x pinup" % rawgithub)
     os.system("rm -f timeservice; wget %s/timeservice" % rawgithub)
     os.system("rm -f timeservice.service; wget %s/timeservice.service" % rawgithub)
-    print ("Clockmaker --build complete.")
+    print("Clockmaker --build complete.")
 
 
 def install():
-    "Install timeserver software & start script " \
-        "once everything has been tested."
+    "Install timeserver software & start script " "once everything has been tested."
     if os.geteuid() != 0:
         print("The --install function must run as root.")
         raise SystemExit(0)
@@ -371,9 +368,10 @@ def install():
     os.system("(cd gpsd && scons install)")
 
     print("Installing NTPsec")
-    if 'ntp' not in set([x[0] for x in pwd.getpwall()]):
-        os.system("adduser --system --no-create-home "
-                  "--disabled-login --gecos '' ntp")
+    if "ntp" not in set([x[0] for x in pwd.getpwall()]):
+        os.system(
+            "adduser --system --no-create-home " "--disabled-login --gecos '' ntp"
+        )
         os.system("addgroup --system ntp; addgroup ntp ntp")
     os.system("(cd ntpsec && ./waf install) && cp ntp.conf /etc")
     os.system("mkdir -p /var/lib/ntp /var/log/ntpstats")
@@ -381,7 +379,9 @@ def install():
 
     print("Setting PYTHONPATH")
     with open("../.profile", "a") as profile:
-        profile.write("export PYTHONPATH=${PYTHONPATH}:/usr/local/lib/python3/dist-packages/")
+        profile.write(
+            "export PYTHONPATH=${PYTHONPATH}:/usr/local/lib/python3/dist-packages/"
+        )
 
     print("Installing pinup")
     os.system("cp pinup /usr/local/bin; chmod a+x /usr/local/bin/pinup")
@@ -396,12 +396,11 @@ def install():
     os.system("systemctl enable timeservice")
 
     with open("/etc/motd", "w") as motd:
-        motd.write("Microserver configuration installed on %s\n" %
-                   time.ctime())
+        motd.write("Microserver configuration installed on %s\n" % time.ctime())
 
     # FIXME: set up cron jobs?
 
-    print ("Clockmaker --install complete.")
+    print("Clockmaker --install complete.")
 
     print("A reboot is required for these changes to take effect.")
     os.system("reboot")
@@ -417,31 +416,33 @@ def mask():
     while True:
         nonroot = input("Owner userid? ")
         if not nonroot:
-            print ("Cannot be empty.")
+            print("Cannot be empty.")
         elif ":" in nonroot:
-            print ("Cannot contain a colon.")
+            print("Cannot contain a colon.")
         else:
             break
     if os.system("adduser %s" % nonroot):
-        print ("Bailing out.")
+        print("Bailing out.")
         raise SystemExit(1)
     created = set([x[0] for x in pwd.getpwall()]) - existing
     if len(created) != 1:
-        print ("Expected unique new user!.")
+        print("Expected unique new user!.")
         raise SystemExit(1)
     created = created.pop()
-    print ("Adding %s to sudo and dialout groups..." % created)
+    print("Adding %s to sudo and dialout groups..." % created)
     os.system("usermod -a -G sudo,dialout %s" % created)
-    print ("Copying build files...")
+    print("Copying build files...")
     os.system("mv ~%s/* ~%s;" % (sbc.default_login, nonroot))
     os.system("chown -R %s.%s ~%s/*" % (nonroot, nonroot, nonroot))
-    print ("Setting up sudoer permissions")
+    print("Setting up sudoer permissions")
     with open("/etc/sudoers.d/020_%s-nopasswd" % nonroot, "w") as fp:
         fp.write("%s ALL=(ALL) NOPASSWD: ALL\n" % nonroot)
-    print ("Clockmaker --mask complete.")
-    print ("Check that you can log in as %s, then install ssh keys for %s" \
-          % (created, created))
-    print ("before calling ./clockmaker --secure as root.")
+    print("Clockmaker --mask complete.")
+    print(
+        "Check that you can log in as %s, then install ssh keys for %s"
+        % (created, created)
+    )
+    print("before calling ./clockmaker --secure as root.")
 
 
 def secure():
@@ -450,8 +451,8 @@ def secure():
         print("The --secure function must run as root.")
         raise SystemExit(0)
 
-    if os.environ.get('SUDO_USER'):
-        sudo_user = os.environ.get('SUDO_USER')
+    if os.environ.get("SUDO_USER"):
+        sudo_user = os.environ.get("SUDO_USER")
         ssh_path = os.path.join("/home", sudo_user, ".ssh")
         print("ssh_path is %s" % ssh_path)
     else:
@@ -466,8 +467,7 @@ def secure():
     wp = open("/etc/ssh/sshd_config-new", "w")
     modified = False
     for line in rp:
-        if line.startswith("PermitRootLogin") and \
-                "without-password" not in line:
+        if line.startswith("PermitRootLogin") and "without-password" not in line:
             modified = True
             line = "PermitRootLogin without-password\n"
         elif line.startswith("#PermitRootLogin"):
@@ -490,13 +490,12 @@ def secure():
     print("")
     if ("\n" + sbc.default_login + ":") in open("/etc/passwd").read():
         print("Default login %s is still present." % sbc.default_login)
-        os.system("rm -fr ~%s/*; deluser %s" % (sbc.default_login,
-                                                sbc.default_login))
+        os.system("rm -fr ~%s/*; deluser %s" % (sbc.default_login, sbc.default_login))
         os.remove("/etc/sudoers.d/010_pi-nopasswd")
         reboot_required = True
     else:
         print("Default login has been removed.")
-    print ("Clockmaker --secure complete.")
+    print("Clockmaker --secure complete.")
 
 
 def strip():
@@ -509,15 +508,19 @@ def strip():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or sys.argv[1] not in ("--config", "--build",
-                                                "--install", "--mask",
-                                                "--secure", "--strip",
-                                                "--update"):
+    if len(sys.argv) < 2 or sys.argv[1] not in (
+        "--config",
+        "--build",
+        "--install",
+        "--mask",
+        "--secure",
+        "--strip",
+        "--update",
+    ):
         print("Please specify a configuration stage argument:")
         print("  --config = basic SBC configuration")
         print("  --build = build timeservice software (generate ntp.conf)")
-        print("  --update = update timeservice software "
-              "(don't change ntp.conf)")
+        print("  --update = update timeservice software " "(don't change ntp.conf)")
         print("  --install = install timeservice software")
         print("  --mask = create and enable non-default user")
         print("  --secure = secure the timeserver")
